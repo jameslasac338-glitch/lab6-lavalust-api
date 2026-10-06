@@ -52,6 +52,8 @@ defined('PREVENT_DIRECT_ACCESS') OR exit('No direct script access allowed');
 |	['charset']		The default character set
 |   ['dbprefix']    You can add an optional prefix, which will be added
 |				    to the table name when using the  Query Builder class
+|   ['ssl_ca']      Path to the CA certificate file (required by Aiven MySQL).
+|                   Relative paths are resolved from the project root.
 |   You can create new instance of the database by adding new element of
 |   $database variable.
 |   Example: $database['another_example'] = array('key' => 'value')
@@ -66,6 +68,7 @@ $database['main'] = array(
     'database'	=> getenv('DB_NAME') ?: '',
     'charset'	=> getenv('DB_CHARSET') ?: '',
     'dbprefix'	=> getenv('DB_PREFIX') ?: '',
+    'ssl_ca'	=> getenv('DB_SSL_CA') ?: '',
     // Optional for SQLite
     'path'      => ''
 );

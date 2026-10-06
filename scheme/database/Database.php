@@ -268,6 +268,19 @@ class Database {
             PDO::ATTR_EMULATE_PREPARES   => false,
         );
 
+        // SSL CA certificate (required by Aiven MySQL)
+        $ssl_ca = isset($database_config['ssl_ca']) ? trim($database_config['ssl_ca']) : '';
+        if ($driver === 'mysql' && $ssl_ca !== '') {
+            if (!file_exists($ssl_ca)) {
+                $ssl_ca = dirname(__DIR__, 2) . DIRECTORY_SEPARATOR . $ssl_ca;
+            }
+            // PHP 8.4+ uses Pdo\Mysql::ATTR_SSL_CA; older versions use PDO::MYSQL_ATTR_SSL_CA
+            $ssl_attr = defined('Pdo\Mysql::ATTR_SSL_CA')
+                ? constant('Pdo\Mysql::ATTR_SSL_CA')
+                : PDO::MYSQL_ATTR_SSL_CA;
+            $options[$ssl_attr] = $ssl_ca;
+        }
+
         try {
             $this->db = new PDO($dsn, $username, $password, $options);
             $this->driver = $this->db->getAttribute(PDO::ATTR_DRIVER_NAME);
