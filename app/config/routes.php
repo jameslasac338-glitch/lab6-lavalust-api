@@ -52,3 +52,15 @@ $router->get('rollback', 'MigrationController::rollback');
 $router->get('rollback-all', 'MigrationController::rollback_all');
 $router->get('refresh', 'MigrationController::refresh');
 $router->get('status', 'MigrationController::status');
+// Auth Routes
+$router->post('api/register', 'AuthController::register');
+$router->post('api/login', 'AuthController::login');
+$router->post('api/refresh', 'AuthController::refresh');
+$router->post('api/logout', 'AuthController::logout');
+// Product Routes (protected by JWT)
+$router->get('api/products', 'ProductsController::index');
+$router->get('api/products/{id}', 'ProductsController::show');
+$router->post('api/products', 'ProductsController::store');
+$router->put('api/products/{id}', 'ProductsController::update');
+$router->patch('api/products/{id}', 'ProductsController::update');
+$router->delete('api/products/{id}', 'ProductsController::destroy');
